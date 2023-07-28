@@ -176,8 +176,14 @@ public class TeacherDAOImpl implements ITeacherDAO {
             rs = ps.executeQuery();
 
             while (rs.next()) {
+                int id = rs.getInt("ID");
+                String firstname = rs.getString("FIRSTNAME");
+                String lastname = rs.getString("LASTNAME");
+                int ssn = rs.getInt("SSN");
+                int specialityId = rs.getInt("SPECIALITY_ID");
 
-                Teacher teacher = new Teacher(rs.getInt("ID"),rs.getString("LASTNAME") );
+                // Create a new Teacher object and add it to the list
+                Teacher teacher = new Teacher(id, firstname, lastname, ssn, specialityId);
                 teachers.add(teacher);
             }
         } catch (SQLException e) {
@@ -192,6 +198,7 @@ public class TeacherDAOImpl implements ITeacherDAO {
         }
         return teachers;
     }
+
 
 
 
