@@ -30,9 +30,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
 public class AdminInsertMeetingsForm extends JFrame {
-    private static final long serialVersionUID = 123456;
     private JPanel contentPane;
     private JComboBox<String> teacherComboBox; // Dropdown list for teachers
     private JComboBox<String> studentComboBox; // Dropdown list for students
@@ -172,7 +170,6 @@ public class AdminInsertMeetingsForm extends JFrame {
         int teacherId = -1;
         int studentId = -1;
 
-
         String selectedTeacherName = (String) teacherComboBox.getSelectedItem();
         String selectedStudentName = (String) studentComboBox.getSelectedItem();
         String meetingRoom = meetingRoomTxt.getText().trim();
@@ -185,12 +182,22 @@ public class AdminInsertMeetingsForm extends JFrame {
 
         try {
             // Get the Teacher and Student objects based on the selected names
-            Teacher selectedTeacher = (Teacher) teacherService.getTeachersByLastname(selectedTeacherName);
-            Student selectedStudent = (Student) studentService.getStudentsByLastname(selectedStudentName);
+            List<Teacher> selectedTeachers = teacherService.getTeachersByLastname(selectedTeacherName);
+            List<Student> selectedStudents = studentService.getStudentsByLastname(selectedStudentName);
+
+            if (selectedTeachers.isEmpty()) {
+                throw new TeacherNotFoundException("Selected teacher not found.");
+            }
+            if (selectedStudents.isEmpty()) {
+                throw new StudentNotFoundException("Selected student not found.");
+            }
+
+            // For simplicity, we'll assume there's only one matching teacher and student in the list
+            Teacher selectedTeacher = selectedTeachers.get(0);
+            Student selectedStudent = selectedStudents.get(0);
 
             teacherId = selectedTeacher.getId();
             studentId = selectedStudent.getId();
-
 
             // Parse meeting date
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -206,22 +213,20 @@ public class AdminInsertMeetingsForm extends JFrame {
             java.sql.Date sqlMeetingDate = new java.sql.Date(meetingDate.getTime());
             meeting.setMeetingDate(sqlMeetingDate);
 
-
             // Insert the meeting into the database
-            try {
-                meetingService.insertMeeting(meeting);
-            } catch (MeetingDAOException e) {
-                throw new RuntimeException(e);
-            }
+            meetingService.insertMeeting(meeting);
             JOptionPane.showMessageDialog(null, "Meeting inserted successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
         } catch (ParseException e) {
             JOptionPane.showMessageDialog(null, "Invalid meeting date format. Please use yyyy-MM-dd.", "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        } catch (TeacherNotFoundException | StudentNotFoundException | MeetingDAOException e) {
+            JOptionPane.showMessageDialog(null, "Error occurred during meeting insertion.", "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
     }
 }
 
-
+//
 //package gr.aueb.cf.schoolapp.viewcontroller;
 //
 //import gr.aueb.cf.schoolapp.Main;

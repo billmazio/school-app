@@ -189,7 +189,6 @@ public class StudentDAOImpl implements IStudentDAO {
 
         return student;
     }
-
     @Override
     public List<Student> getAllStudents() throws StudentDAOException {
         String sql = "SELECT * FROM STUDENTS";
@@ -202,8 +201,15 @@ public class StudentDAOImpl implements IStudentDAO {
             rs = ps.executeQuery();
 
             while (rs.next()) {
+                int id = rs.getInt("ID");
+                String firstname = rs.getString("FIRSTNAME");
+                String lastname = rs.getString("LASTNAME");
+                String gender = rs.getString("GENDER");
+                Date birthDate = rs.getDate("BIRTH_DATE");
+                int cityId = rs.getInt("CITY_ID");
 
-                Student student = new Student(rs.getInt("ID"),rs.getString("LASTNAME"));
+                // Create a new Student object and add it to the list
+                Student student = new Student(id, firstname, lastname, gender, birthDate, cityId);
                 students.add(student);
             }
 
@@ -219,4 +225,5 @@ public class StudentDAOImpl implements IStudentDAO {
         }
         return students;
     }
+
 }
