@@ -226,7 +226,7 @@ public class AdminInsertMeetingsForm extends JFrame {
     }
 }
 
-//
+// this class shows the id of teacher and student
 //package gr.aueb.cf.schoolapp.viewcontroller;
 //
 //import gr.aueb.cf.schoolapp.Main;
