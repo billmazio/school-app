@@ -1,4 +1,4 @@
-# school-app is a java project with --SOA(DAO,DTO,SERVICE,MODEL) for back-end and --SWING(gui) for front-end 
+# school-app is a java project with SOA(DAO,DTO,SERVICE,MODEL) for back-end and SWING(gui) for front-end 
 ![Στιγμιότυπο οθόνης (238)](https://github.com/billmazio/school-app/assets/116730698/72d16dd1-ad59-4027-8263-3b92dae834cc)
 ![Στιγμιότυπο οθόνης (239)](https://github.com/billmazio/school-app/assets/116730698/e438a4f7-b1c4-4622-98c6-c76d41cfa997)
 ![Στιγμιότυπο οθόνης (247)](https://github.com/billmazio/school-app/assets/116730698/b6315af6-2b75-477f-8ee1-d37417f31971)
